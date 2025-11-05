@@ -489,6 +489,40 @@
     .upload-section { border-top: 1px solid var(--border-color); margin-top: 30px; padding-top: 25px; }
     .upload-box { border: 2px dashed var(--border-color); border-radius: var(--border-radius); padding: 40px; text-align: center; background-color: #f8f9fa; }
     .upload-box:hover { background-color: #e7f3ff; border-color: var(--primary-color); }
+
+    /* ===== PERBAIKAN TOMBOL LOGOUT (Tempel ini) ===== */
+    #logout-link {
+        /* Ini adalah salinan style dari .sidebar-menu button */
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
+        padding: 14px 20px;
+        margin-bottom: 5px;
+        background: none;
+        border: none;
+        color: #d1d5db; /* Warna teks tombol menu */
+        text-align: left;
+        cursor: pointer;
+        font-size: 1em;
+        font-weight: 500;
+        border-radius: 8px;
+        transition: all var(--transition-speed) ease;
+        text-decoration: none; /* Menghilangkan garis bawah link */
+    }
+
+    #logout-link:hover {
+        /* Ini adalah salinan style dari .sidebar-menu button:hover */
+        background: #374151;
+        color: white;
+    }
+
+    #logout-link .icon {
+        /* Ini adalah salinan style dari .sidebar-menu button .icon */
+        width: 20px;
+        height: 20px;
+    }
+    /* ===== BATAS AKHIR PERBAIKAN ===== */
   </style>
 </head>
 <body>
@@ -511,6 +545,14 @@
         <button data-section="crudIncoterms" data-title="Settings: Incoterms">📦 Incoterms</button>
         <button data-section="crudNotul" data-title="Settings: Notul">📝 Notul</button>
       </div>
+    </li>
+    <li>
+    <a href="index.html" id="logout-link">
+        <svg class="icon" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1" />
+        </svg>
+        Logout
+    </a>
     </li>
   </ul>
 </div>
