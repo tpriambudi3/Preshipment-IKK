@@ -62,6 +62,7 @@
       z-index: 1000;
       border-right: 1px solid #374151;
       flex-shrink: 0;
+      overflow-y: auto;
     }
     .sidebar.hidden { margin-left: -250px; }
     .sidebar-header {
@@ -357,7 +358,11 @@
       max-height: 70vh;
       overflow-y: auto;
     }
-    table { width: 100%; border-collapse: collapse; }
+    table { 
+      width: 100%; 
+      border-collapse: collapse;
+      table-layout: auto; 
+    }
     
     th, td { 
       border-bottom: 1px solid var(--border-color); 
@@ -614,11 +619,20 @@
         <div class="form-field"><label for="vbiDate">VBI2 Date</label><input type="date" id="vbiDate" name="vbiDate"></div>
         <div class="form-field"><label for="etdMill">ETD Mill</label><input type="date" id="etdMill" name="etdMill"></div>
         <div class="form-field"><label for="notul">Notul</label><select id="notul" name="notul"></select></div>
+        <div class="form-field"><label for="picDn">PIC DN</label><select id="picDn" name="picDn"></select></div>
         <div class="form-field"><label for="bookRef">Book Ref Number</label><input type="text" id="bookRef" name="bookRef"></div>
         <div class="form-field"><label for="shipTo">Ship to Party Name</label><input type="text" id="shipTo" name="shipTo"></div>
         <div class="form-field"><label for="importer">Importer Name</label><input type="text" id="importer" name="importer"></div>
         <div class="form-field"><label for="country">Country Destination</label><input type="text" id="country" name="country"></div>
         <div class="form-field"><label for="shippingLine">Shipping Line</label><input type="text" id="shippingLine" name="shippingLine"></div>
+        
+        <!-- NEW HEADERS: ACT 20, ACT 40, ACT HC (Numeric) & NO CONT -->
+        <div class="form-field"><label for="act20">ACT 20</label><input type="number" id="act20" name="act20"></div>
+        <div class="form-field"><label for="act40">ACT 40</label><input type="number" id="act40" name="act40"></div>
+        <div class="form-field"><label for="actHc">ACT HC</label><input type="number" id="actHc" name="actHc"></div>
+        <div class="form-field"><label for="noCont">NO CONT</label><input type="text" id="noCont" name="noCont"></div>
+        <!-- END NEW HEADERS -->
+
         <div class="form-field"><label for="incoterms">Incoterms</label><select id="incoterms" name="incoterms"></select></div>
         <div class="form-field"><label for="freightCurr">Freight Currency</label><select id="freightCurr" name="freightCurr"></select></div>
         <div class="form-field"><label for="freightCost">Freight Cost</label><input type="text" id="freightCost" name="freightCost"></div>
@@ -683,12 +697,21 @@
             <th class="sortable" data-column="deadline">Deadline<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="etdMill">ETD Mill<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="notul">Notul<span class="sort-indicator"></span></th>
+            <th class="sortable" data-column="picDn">PIC DN<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="bookRef">Book Ref Number<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="shipTo">Ship to Party name<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="soldTo">Sold-to Party name<span class="sort-indicator"></span></th> 
             <th class="sortable" data-column="importer">Importer Name<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="country">Country Destination<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="shippingLine">Shipping Line<span class="sort-indicator"></span></th>
+            
+            <!-- NEW TABLE HEADERS -->
+            <th class="sortable" data-column="act20">ACT 20<span class="sort-indicator"></span></th>
+            <th class="sortable" data-column="act40">ACT 40<span class="sort-indicator"></span></th>
+            <th class="sortable" data-column="actHc">ACT HC<span class="sort-indicator"></span></th>
+            <th class="sortable" data-column="noCont">NO CONT<span class="sort-indicator"></span></th>
+            <!-- END NEW TABLE HEADERS -->
+
             <th class="sortable" data-column="incoterms">Incoterms<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="freightCurr">Freight Curr<span class="sort-indicator"></span></th>
             <th class="sortable" data-column="freightCost">Freight Cost<span class="sort-indicator"></span></th>
@@ -781,56 +804,56 @@
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="11.EVERGREEN.xlsx" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>11. EVERGREEN</span>
+                <span>10. EVERGREEN</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="12.OOCL.xlsx" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>12. OOCL</span>
+                <span>11. OOCL</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="13.HEUNG A.xls" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>13. HEUNG A</span>
+                <span>12. HEUNG A</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="14.HYUNDAI.xls" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>14. HYUNDAI</span>
+                <span>13. HYUNDAI</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="15.YANGMING.xlsx" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>15. YANGMING</span>
+                <span>14. YANGMING</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="16.ZIM_Gold_Star_Line.xlsx" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>16. ZIM GOLD STAR LINE</span>
+                <span>15. ZIM GOLD STAR LINE</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="17.SAMIN.xls" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>17. SAMIN</span>
+                <span>16. SAMIN</span>
               </a>
             </li>
             <li class="vgm-download-item">
               <!-- PERBAIKAN: Menggunakan href langsung dan atribut download -->
               <a href="19.SINOKOR.xls" class="vgm-download-link" download="05. MSC.xlsx - Method.csv">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" d="M3 16.5v2.25A2.25 2.25 0 005.25 21h13.5A2.25 2.25 0 0021 18.75V16.5M16.5 12L12 16.5m0 0L7.5 12m4.5 4.5V3" /></svg>
-                <span>19. SINOKOR</span>
+                <span>17. SINOKOR</span>
               </a>
             </li>
           </ul>
@@ -1018,17 +1041,27 @@
   };
   
   const updateDropdowns = (type, data) => {
-    const { dropdownEl } = settingsConfig[type];
-    const select = document.getElementById(dropdownEl);
-    if (!select) return;
+    // List of dropdown IDs to update for this type
+    let targetIds = [settingsConfig[type].dropdownEl];
+    
+    // If type is 'pic', also update 'picDn'
+    if (type === 'pic') {
+        targetIds.push('picDn');
+    }
+
     const defaultOptionText = { 
         pic: "Select PIC", 
         curr: "Select Currency", 
         incoterms: "Select Incoterms",
         notul: "Select Notul Option"
     }[type];
-    select.innerHTML = `<option value="">${defaultOptionText}</option>`;
-    data.forEach(item => { select.innerHTML += `<option value="${item.name}">${item.name}</option>`; });
+
+    targetIds.forEach(id => {
+        const select = document.getElementById(id);
+        if (!select) return;
+        select.innerHTML = `<option value="">${defaultOptionText}</option>`;
+        data.forEach(item => { select.innerHTML += `<option value="${item.name}">${item.name}</option>`; });
+    });
   };
   
   const addSettingItem = (type) => {
@@ -1063,7 +1096,7 @@
         if (column === 'deadline') { valA = a.deadlineValue; valB = b.deadlineValue; }
         
         const isDate = ['vbiDate', 'etdMill', 'vlegalDate', 'pebDate', 'vgmDate', 'sendPeb'].includes(column);
-        const isNumeric = ['freightCost', 'pic'].includes(column); 
+        const isNumeric = ['freightCost', 'pic', 'act20', 'act40', 'actHc'].includes(column); 
         
         let comparison = 0;
         if (isDate) {
@@ -1146,9 +1179,9 @@
 
   const updatePicTasks = (data) => {
     const incompleteTasksByPic = data
-        .filter(item => item.status !== 'Completed' && item.pic) 
+        .filter(item => item.status !== 'Completed' && item.picDn) 
         .reduce((acc, task) => {
-            acc[task.pic] = (acc[task.pic] || 0) + 1;
+            acc[task.picDn] = (acc[task.picDn] || 0) + 1;
             return acc;
         }, {});
     
@@ -1274,7 +1307,8 @@
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    const requiredFields = ['noDn','vbiDate','etdMill','bookRef','shipTo','importer','country','shippingLine','incoterms','freightCurr','freightCost','pic','lastPi','vlegalNum','vlegalDate','ispm','aju','pebNum','pebDate','vgmDate','notul','soldTo','sendPeb'];
+    // Added 'picDn' and 'noCont' to required fields
+    const requiredFields = ['noDn','vbiDate','etdMill','bookRef','shipTo','importer','country','shippingLine','incoterms','freightCurr','freightCost','pic','lastPi','vlegalNum','vlegalDate','ispm','aju','pebNum','pebDate','vgmDate','notul','picDn','soldTo','sendPeb', 'noCont'];
     const requiredFieldsForFOB = requiredFields.filter(field => field !== 'freightCurr' && field !== 'freightCost');
 
     return rawData.map(row => {
@@ -1297,11 +1331,19 @@
                 fieldsToCheck = requiredFields; 
             }
             
-            const isComplete = fieldsToCheck.every(field => {
+            const isStandardComplete = fieldsToCheck.every(field => {
                  return row[field] !== null && row[field] !== undefined && String(row[field]).trim() !== '';
             });
+
+            // Logic: Salah satu dari ACT 20, ACT 40, atau ACT HC harus terisi (>0)
+            const checkAct = (val) => {
+                if (val === null || val === undefined || String(val).trim() === '') return false;
+                const num = parseFloat(val);
+                return !isNaN(num) && num > 0;
+            };
+            const isActFilled = checkAct(row.act20) || checkAct(row.act40) || checkAct(row.actHc);
             
-            status = isComplete ? 'Completed' : 'Incomplete';
+            status = (isStandardComplete && isActFilled) ? 'Completed' : 'Incomplete';
         }
         
         return { ...row, deadlineValue, status };
@@ -1357,7 +1399,7 @@
     const today = new Date();
     today.setHours(0, 0, 0, 0);
 
-    tbody.innerHTML = data.length === 0 ? "<tr><td colspan='27' style='text-align:center; padding: 40px;'>No data available.</td></tr>" : 
+    tbody.innerHTML = data.length === 0 ? "<tr><td colspan='32' style='text-align:center; padding: 40px;'>No data available.</td></tr>" : 
       data.map(row => {
         let deadlineDisplay = '-';
         let deadlineClass = '';
@@ -1395,12 +1437,19 @@
           <td class="${deadlineClass}">${deadlineDisplay}</td>
           <td>${formatDateForDisplay(row.etdMill)}</td>
           <td ${notulStyle}>${notulContent}</td>
+          <td>${row.picDn||'-'}</td>
           <td>${row.bookRef||'-'}</td>
           <td>${row.shipTo||'-'}</td>
           <td>${row.soldTo||'-'}</td> 
           <td>${row.importer||'-'}</td>
           <td>${row.country||'-'}</td>
           <td>${row.shippingLine||'-'}</td>
+          <!-- NEW COLUMNS DATA -->
+          <td>${row.act20||'-'}</td>
+          <td>${row.act40||'-'}</td>
+          <td>${row.actHc||'-'}</td>
+          <td>${row.noCont||'-'}</td>
+          <!-- END NEW COLUMNS -->
           <td>${row.incoterms||'-'}</td>
           <td>${row.freightCurr||'-'}</td>
           <td>${row.freightCost||'-'}</td>
@@ -1518,8 +1567,10 @@
   
   const columnMapForTemplate = {
     'Delivery':'noDn', 'VBI2 Date':'vbiDate', 'ETD Mill':'etdMill', 'Notul':'notul', 
-    'Book Ref Number':'bookRef', 'Ship to Party name':'shipTo', 'Sold-to Party name':'soldTo', 
+    'PIC DN': 'picDn', 'Book Ref Number':'bookRef', 'Ship to Party name':'shipTo', 'Sold-to Party name':'soldTo', 
     'Importer Name':'importer', 'Country Destination':'country', 'Shipping Line':'shippingLine', 
+    // Mapped Excel columns for new headers
+    'ACT 20': 'act20', 'ACT 40': 'act40', 'ACT HC': 'actHc', 'NO CONT': 'noCont',
     'Incoterms':'incoterms', 'Freight Curr':'freightCurr', 'Freight Cost':'freightCost', 
     'PIC Proforma Invoice':'pic', 'Last PI':'lastPi', 'V-LEGAL NUMB':'vlegalNum', 
     'V-LEGAL DATE':'vlegalDate', 'ISPM CERT':'ispm', 'AJU':'aju', 'PEB NUMB':'pebNum', 
@@ -1595,16 +1646,20 @@
 
   const generateTemplate = () => {
     const headers = [
-      'Delivery', 'VBI2 Date', 'ETD Mill', 'Notul', 'Book Ref Number', 
+      'Delivery', 'VBI2 Date', 'ETD Mill', 'Notul', 'PIC DN', 'Book Ref Number', 
       'Ship to Party name', 'Sold-to Party name', 'Importer Name', 'Country Destination', 
-      'Shipping Line', 'Incoterms', 'Freight Curr', 'Freight Cost', 'PIC Proforma Invoice', 
+      'Shipping Line', 
+      'ACT 20', 'ACT 40', 'ACT HC', 'NO CONT', // Added new template headers
+      'Incoterms', 'Freight Curr', 'Freight Cost', 'PIC Proforma Invoice', 
       'Last PI', 'V-LEGAL NUMB', 'V-LEGAL DATE', 'ISPM CERT', 'AJU', 'PEB NUMB', 
       'PEB DATE', 'VGM', 'SEND PEB NPE TO EMKL'
     ];
     const sampleRow = [
-        '80001234 (Sample)', '2025-10-17', '2025-10-24', 'No', '123456789', 
+        '80001234 (Sample)', '2025-10-17', '2025-10-24', 'No', 'PIC Example', '123456789', 
         'Example Importer', 'Example Buyer', 'Example Importer', 'Singapore', 
-        'Example Shipping', 'FOB', 'USD', '1500.50', '123', 
+        'Example Shipping', 
+        '1', '0', '0', 'MSDU1234567', // Sample data for ACT and NO CONT
+        'FOB', 'USD', '1500.50', '123', 
         'PI-12345', 'VLK-1234', '2025-10-16', 'ISPM-5678', 'AJU-91011', 'PEB-121314', 
         '2025-10-20', '20.10.2025', '2025-10-21' 
     ];
@@ -1718,9 +1773,11 @@
   
   const exportToExcel = () => {
     const headersInOrder = [ 
-      'Delivery', 'VBI2 Date', 'ETD Mill', 'Notul', 'Book Ref Number', 
+      'Delivery', 'VBI2 Date', 'ETD Mill', 'Notul', 'PIC DN', 'Book Ref Number', 
       'Ship to Party name', 'Sold-to Party name', 'Importer Name', 'Country Destination', 
-      'Shipping Line', 'Incoterms', 'Freight Curr', 'Freight Cost', 'PIC Proforma Invoice', 
+      'Shipping Line', 
+      'ACT 20', 'ACT 40', 'ACT HC', 'NO CONT', // Added to Export
+      'Incoterms', 'Freight Curr', 'Freight Cost', 'PIC Proforma Invoice', 
       'Last PI', 'V-LEGAL NUMB', 'V-LEGAL DATE', 'ISPM CERT', 'AJU', 'PEB NUMB', 
       'PEB DATE', 'VGM', 'SEND PEB NPE TO EMKL'
     ];
