@@ -435,8 +435,14 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 12px 5px;
+        padding: 12px 10px;
         border-bottom: 1px solid var(--border-color);
+        cursor: pointer; /* Indikator bisa diklik */
+        transition: background 0.2s;
+        border-radius: 6px;
+    }
+    .pic-task-list li:hover {
+        background-color: #f1f3f5;
     }
     .pic-task-list li:last-child {
         border-bottom: none;
@@ -532,7 +538,39 @@
     tbody tr:hover td { background-color: #e7f3ff; }
     .action-btn { background: none; border: none; cursor: pointer; padding: 5px; font-size: 1.2em; margin: 0 4px; color: #adb5bd; }
     .action-btn:hover { color: var(--primary-color); }
-    .table-actions { margin-bottom: 20px; display: flex; flex-wrap: wrap; gap: 15px; align-items: center; }
+    
+    /* Updated Table Actions for Export */
+    .table-actions { 
+        margin-bottom: 20px; 
+        display: flex; 
+        flex-wrap: wrap; 
+        gap: 15px; 
+        align-items: center; 
+    }
+    
+    /* Style for Export Inputs */
+    .export-controls {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background-color: #f1f3f5;
+        padding: 8px 15px;
+        border-radius: 8px;
+        margin-left: auto; /* Push to the right */
+    }
+    
+    .export-controls span {
+        font-weight: 600;
+        font-size: 0.9em;
+        color: #495057;
+    }
+    
+    .export-controls input[type="date"] {
+        padding: 6px 10px;
+        width: auto;
+        font-size: 0.9em;
+    }
+
     .overdue { color: var(--red-color); font-weight: 600; }
     #searchInput {
         padding: 10px 14px;
@@ -560,7 +598,12 @@
     .status-completed::before { background-color: var(--green-color); }
     .status-notul { color: var(--blue-color); }
     .status-notul::before { background-color: var(--blue-color); }
-    .status-incomplete { color: var(--red-color); } 
+    .status-incomplete { 
+        color: var(--red-color); 
+        cursor: pointer; /* Indikator bisa diklik */
+        text-decoration: underline;
+        text-decoration-style: dotted;
+    } 
     .status-incomplete::before { background-color: var(--red-color); }
 
     /* --- Kolom Sticky --- */
@@ -640,7 +683,7 @@
     .upload-box { border: 2px dashed var(--border-color); border-radius: var(--border-radius); padding: 40px; text-align: center; background-color: #f8f9fa; }
     .upload-box:hover { background-color: #e7f3ff; border-color: var(--primary-color); }
 
-    /* ===== PERBAIKAN TOMBOL LOGOUT (Tempel ini) ===== */
+    /* ===== PERBAIKAN TOMBOL LOGOUT ===== */
     #logout-link {
         display: flex;
         align-items: center;
@@ -669,9 +712,106 @@
         width: 20px;
         height: 20px;
     }
+
+    /* === NEW: MODAL STYLES === */
+    .modal {
+        display: none; 
+        position: fixed; 
+        z-index: 10001; 
+        left: 0;
+        top: 0;
+        width: 100%; 
+        height: 100%; 
+        overflow: auto; 
+        background-color: rgba(0,0,0,0.5); 
+        backdrop-filter: blur(2px);
+    }
+
+    .modal-content {
+        background-color: #fefefe;
+        margin: 10% auto; 
+        padding: 25px;
+        border: 1px solid #888;
+        width: 90%;
+        max-width: 600px;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        position: relative;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from { transform: translateY(-50px); opacity: 0; }
+        to { transform: translateY(0); opacity: 1; }
+    }
+
+    .close-modal {
+        color: #aaa;
+        float: right;
+        font-size: 28px;
+        font-weight: bold;
+        cursor: pointer;
+        line-height: 1;
+    }
+
+    .close-modal:hover,
+    .close-modal:focus {
+        color: black;
+        text-decoration: none;
+    }
+
+    .modal-body h3 {
+        margin-top: 0;
+        color: var(--secondary-color);
+        border-bottom: 2px solid #f0f0f0;
+        padding-bottom: 10px;
+        margin-bottom: 15px;
+    }
+
+    .missing-list {
+        list-style-type: none;
+        padding: 0;
+    }
+    .missing-list li {
+        padding: 8px 0;
+        border-bottom: 1px solid #eee;
+        color: var(--red-color);
+        font-weight: 500;
+        display: flex;
+        align-items: center;
+    }
+    .missing-list li:before {
+        content: "⚠️";
+        margin-right: 10px;
+    }
+    .modal-dn-group {
+        margin-bottom: 20px;
+        background: #fff9fa;
+        padding: 15px;
+        border-radius: 8px;
+        border-left: 4px solid var(--red-color);
+    }
+    .modal-dn-title {
+        font-weight: 700;
+        color: var(--secondary-color);
+        margin-bottom: 8px;
+        display: block;
+        font-size: 1.1em;
+    }
+
   </style>
 </head>
 <body>
+
+<!-- ===== MODAL POPUP (NEW) ===== -->
+<div id="infoModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal" id="closeModal">&times;</span>
+    <div id="modalBody" class="modal-body">
+        <!-- Content injected by JS -->
+    </div>
+  </div>
+</div>
 
 <!-- ===== LOGIN OVERLAY (UPDATED TO ENGLISH & BEAUTIFIED) ===== -->
 <div class="login-container" id="loginContainer">
@@ -755,7 +895,7 @@
             </div>
             
             <div class="pic-task-card" id="picTaskContainer">
-                <h3>PIC Tasks (Not Completed)</h3> 
+                <h3>PIC Tasks (Not Completed) </h3> 
                 <ul class="pic-task-list" id="picTaskList">
                 </ul>
             </div>
@@ -853,7 +993,16 @@
             <input type="text" id="searchInput" placeholder="Search data...">
             <button class="btn btn-secondary" id="deleteSelectedBtn" style="display:none;">🗑️ Delete Selected</button>
             <span id="selectedCount" style="display:none; font-weight: bold;"></span>
-            <button class="btn btn-secondary" id="exportExcelBtn">📄 Export to Excel</button>
+            
+            <!-- NEW EXPORT CONTROLS -->
+            <div class="export-controls">
+                <span>Export ETD:</span>
+                <input type="date" id="exportStartDate" title="Start Date">
+                <span>-</span>
+                <input type="date" id="exportEndDate" title="End Date">
+                <button class="btn btn-secondary" id="exportPeriodBtn">📅 Export Period</button>
+                <button class="btn btn-secondary" id="exportAllBtn">📄 Export All</button>
+            </div>
         </div>
         <div class="table-container">
         <table id="logTable">
@@ -1438,7 +1587,7 @@
     picTaskList.innerHTML = sortedPics.map(picName => {
         const count = incompleteTasksByPic[picName];
         return `
-            <li>
+            <li class="pic-task-item" data-pic="${picName}">
                 <div class="pic-info">PIC ${picName}</div>
                 <div class="pic-task-count">${count}</div>
             </li>
@@ -1662,11 +1811,14 @@
         const notulContent = row.notul || '-';
         const notulStyle = notulContent.toLowerCase().startsWith('yes') ? 'style="color: var(--red-color); font-weight: 600;"' : '';
         const statusClass = `status-${row.status.toLowerCase().replace(' ', '-')}`;
+        
+        // Tambahkan data-id pada kolom status agar bisa di-klik untuk detail
+        const statusClickAttr = row.status === 'Incomplete' ? `data-action="view-missing" data-id="${row.id}"` : '';
 
         return `
         <tr>
           <td class="sticky-col sticky-col-1"><input type="checkbox" data-id="${row.id}" class="row-checkbox"></td>
-          <td class="${statusClass}">${row.status}</td>
+          <td class="${statusClass}" ${statusClickAttr}>${row.status}</td>
           <td>${row.noDn||'-'}</td>
           <td>${formatDateForDisplay(row.vbiDate)}</td>
           <td class="${deadlineClass}">${deadlineDisplay}</td>
@@ -1992,7 +2144,43 @@
       reader.readAsArrayBuffer(file);
   };
   
-  const exportToExcel = () => {
+  // ===================== EXPORT LOGIC (UPDATED) =====================
+  const exportToExcel = (mode = 'all') => {
+    // 1. Determine which data to export based on mode
+    let dataToExport = [];
+    
+    if (mode === 'all') {
+        // Export ALL data available in database (not just what's searched)
+        dataToExport = [...dnPebData];
+    } else if (mode === 'period') {
+        const startVal = document.getElementById('exportStartDate').value;
+        const endVal = document.getElementById('exportEndDate').value;
+        
+        if (!startVal || !endVal) {
+            showToast("Please select both Start and End dates for ETD.");
+            return;
+        }
+        
+        if (startVal > endVal) {
+            showToast("Start Date cannot be after End Date.");
+            return;
+        }
+
+        // Filter based on ETD Mill (String Comparison for Safety)
+        dataToExport = dnPebData.filter(row => {
+            if (!row.etdMill) return false;
+            // Normalize row date to YYYY-MM-DD string
+            let rowDate = String(row.etdMill).substring(0, 10);
+            return rowDate >= startVal && rowDate <= endVal;
+        });
+
+        if (dataToExport.length === 0) {
+            showToast("No data found for the selected ETD period.");
+            return;
+        }
+    }
+
+    // 2. Map data to headers
     const headersInOrder = [ 
       'Delivery', 'VBI2 Date', 'ETD Mill', 'Notul', 'PIC DN', 'Book Ref Number', 
       'Ship to Party name', 'Sold-to Party name', 'Importer Name', 'Country Destination', 
@@ -2003,14 +2191,116 @@
       'PEB DATE', 'VGM', 'SEND PEB NPE TO EMKL'
     ];
 
-    const dataToExport = [headersInOrder, ...currentlyDisplayedData.map(row => 
+    const formattedData = [headersInOrder, ...dataToExport.map(row => 
         headersInOrder.map(header => row[columnMapForTemplate[header]] || '') 
     )];
-    const ws = XLSX.utils.aoa_to_sheet(dataToExport);
+
+    // 3. Generate file name
+    let fileName = "Monitoring_PEB_Data.xlsx";
+    if (mode === 'period') {
+        const s = document.getElementById('exportStartDate').value;
+        const e = document.getElementById('exportEndDate').value;
+        fileName = `Monitoring_PEB_${s}_to_${e}.xlsx`;
+    }
+
+    // 4. Create Excel File
+    const ws = XLSX.utils.aoa_to_sheet(formattedData);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, "Data PEB");
-    XLSX.writeFile(wb, "Monitoring_PEB_Data.xlsx");
+    XLSX.writeFile(wb, fileName);
+    
+    showToast(`Successfully exported ${dataToExport.length} rows.`);
   };
+
+  // ===================== MODAL & POPUP LOGIC (NEW FEATURE) =====================
+  
+  const modal = document.getElementById("infoModal");
+  const modalBody = document.getElementById("modalBody");
+  const closeBtn = document.getElementById("closeModal");
+
+  // Fungsi Helper: Cek 5 dokumen spesifik yang hilang
+  const checkMissingDocuments = (row) => {
+      const missing = [];
+      if (!row.vlegalNum || row.vlegalNum.trim() === '') missing.push('V-LEGAL NUMB');
+      if (!row.aju || row.aju.trim() === '') missing.push('AJU');
+      if (!row.pebNum || row.pebNum.trim() === '') missing.push('PEB NUMB');
+      if (!row.ispm || row.ispm.trim() === '') missing.push('ISPM CERT');
+      if (!row.vgmDate || row.vgmDate.trim() === '') missing.push('VGM Date');
+      return missing;
+  };
+
+  // 1. Tampilkan Pop-up Detail Dokumen yang Hilang (Dari Table Status)
+  window.showStatusDetail = (id) => {
+      const row = dnPebData.find(item => item.id === id);
+      if (!row) return;
+
+      const missingDocs = checkMissingDocuments(row);
+
+      let htmlContent = `<h3>Missing Documents for DN: ${row.noDn}</h3>`;
+      
+      if (missingDocs.length > 0) {
+          htmlContent += `<ul class="missing-list">`;
+          missingDocs.forEach(doc => {
+              htmlContent += `<li>${doc} is missing</li>`;
+          });
+          htmlContent += `</ul>`;
+      } else {
+          htmlContent += `<p style="color: green;">All 5 specific documents (V-Legal, Aju, PEB, ISPM, VGM) are present.</p>`;
+          htmlContent += `<p>However, other fields might be empty (check standard fields or containers).</p>`;
+      }
+      
+      // Tombol shortcut edit
+      htmlContent += `<button class="btn btn-primary" style="margin-top:15px; width:100%;" onclick="triggerEditFromModal('${id}')">✏️ Edit This Data</button>`;
+
+      modalBody.innerHTML = htmlContent;
+      modal.style.display = "block";
+  };
+  
+  // Fungsi jembatan agar bisa panggil startEditRow dari modal (scope issue)
+  window.triggerEditFromModal = (id) => {
+      modal.style.display = "none";
+      startEditRow(id);
+  };
+
+  // 2. Tampilkan Pop-up Detail Tugas PIC (Dari Dashboard)
+  window.showPicTasksDetail = (picName) => {
+      // Filter data untuk PIC ini yang statusnya bukan completed
+      const tasks = dnPebData.filter(item => item.picDn === picName && item.status !== 'Completed');
+      
+      let htmlContent = `<h3>Incomplete Tasks for PIC: ${picName}</h3>`;
+      
+      if (tasks.length === 0) {
+          htmlContent += `<p>No pending tasks found for this PIC.</p>`;
+      } else {
+          htmlContent += `<div style="max-height: 400px; overflow-y: auto;">`;
+          tasks.forEach(task => {
+              const missingDocs = checkMissingDocuments(task);
+              htmlContent += `<div class="modal-dn-group">`;
+              htmlContent += `<span class="modal-dn-title">Delivery: ${task.noDn}</span>`;
+              
+              if (missingDocs.length > 0) {
+                  htmlContent += `<ul class="missing-list" style="margin:0; padding-left:0;">`;
+                  missingDocs.forEach(doc => {
+                      htmlContent += `<li>${doc}</li>`;
+                  });
+                  htmlContent += `</ul>`;
+              } else {
+                  htmlContent += `<p style="font-size:0.9em; margin:0; color:#666;">Specific docs complete, check other fields.</p>`;
+              }
+              htmlContent += `</div>`;
+          });
+          htmlContent += `</div>`;
+      }
+
+      modalBody.innerHTML = htmlContent;
+      modal.style.display = "block";
+  };
+
+  // Close Modal Events
+  closeBtn.onclick = () => { modal.style.display = "none"; };
+  window.onclick = (event) => { if (event.target == modal) modal.style.display = "none"; };
+
+  // =============================================================================
 
   document.addEventListener('DOMContentLoaded', () => {
     showSection('dashboard', 'Dashboard'); // Default view
@@ -2018,7 +2308,11 @@
     listenToPebData(); // Ini akan memuat data dan map `deliveryNoToIdMap`
 
     document.getElementById('searchInput').addEventListener('keyup', handleSearch);
-    document.getElementById('exportExcelBtn').addEventListener('click', exportToExcel);
+    
+    // Updated Export Listeners
+    document.getElementById('exportAllBtn').addEventListener('click', () => exportToExcel('all'));
+    document.getElementById('exportPeriodBtn').addEventListener('click', () => exportToExcel('period'));
+    
     document.getElementById('toggleBtn').addEventListener('click', () => {
       document.getElementById('sidebar').classList.toggle('hidden');
       document.getElementById('mainContent').classList.toggle('full-width');
@@ -2045,15 +2339,28 @@
         const header = e.target.closest('th.sortable');
         if (header) sortData(header.dataset.column);
     });
+    
+    // Global Click Handler (Delegation) - Updated for new features
     document.body.addEventListener('click', (e) => {
-        const target = e.target.closest('button, input.row-checkbox');
+        const target = e.target.closest('button, input.row-checkbox, td[data-action="view-missing"], li.pic-task-item');
         if (!target) return;
-        const { id, type } = target.dataset;
-        if (target.matches('.edit-row')) startEditRow(id);
-        else if (target.matches('.delete-row')) deleteRow(id);
-        else if (target.matches('.delete-setting')) deleteSettingItem(type, id);
-        else if (target.matches('.crud-header .btn')) addSettingItem(type);
-        else if (target.matches('.row-checkbox')) updateDeleteControls();
+
+        // 1. Status Column Click (Feature 1)
+        if (target.matches('td[data-action="view-missing"]')) {
+            const id = target.dataset.id;
+            window.showStatusDetail(id);
+        }
+        // 2. PIC Task Click (Feature 2)
+        else if (target.matches('li.pic-task-item')) {
+            const picName = target.dataset.pic;
+            window.showPicTasksDetail(picName);
+        }
+        // Existing Handlers
+        else if (target.matches('.edit-row')) { const id = target.dataset.id; startEditRow(id); }
+        else if (target.matches('.delete-row')) { const id = target.dataset.id; deleteRow(id); }
+        else if (target.matches('.delete-setting')) { const { id, type } = target.dataset; deleteSettingItem(type, id); }
+        else if (target.matches('.crud-header .btn')) { const type = target.dataset.type; addSettingItem(type); }
+        else if (target.matches('.row-checkbox')) { updateDeleteControls(); }
     });
   });
 </script>
